@@ -1,0 +1,142 @@
+﻿@{  
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "Welcome to Sports Hub!";
+}
+
+@{
+    var db = Database.Open("ConString");
+    var selectN = "Select top 10 * from news order by newid()";
+    var select = "Select top 10 * from tourn order by newid()";
+    var calc = 0;
+    
+    var sid="";
+    //<a href="Default.cshtml">Default.cshtml</a>
+  
+    }
+
+
+<html>
+    
+  
+
+    <head>
+        <title></title>
+        <link href="Styles/for.css" rel="stylesheet" />
+
+    </head>
+   <body style="">
+      <form method="post" action="">
+     <div id="container" style="clear:both;overflow:auto;background-image:url(images/dgbg1.jpg) ;background-repeat:no-repeat;background-size:cover">
+        
+
+   
+<div id="c-area">
+  <center><h1 style="color:white">  Ongoing Tournaments...!</h1>
+ </center>
+         <br />
+      @foreach (var row in db.Query(select)) {
+          calc = calc + 1;
+       
+            <div id="box">
+          <img  src="@row.pic" alt="image" style="width:200px;height:200px"/>
+          <br />
+                     <p >@row.touname</p>
+               
+                <a href="Tournament?sid=@row.tourid">View Detail</a>
+          
+         
+         </div>
+             
+      
+      }
+
+    <div style="clear:both"></div>
+</div>
+<div id="s-bar">
+    
+  <h3 style="color:red">  Latest Updates On Gc Sports Hub...!</h3>
+     @foreach (var row in db.Query(selectN)) {
+         <div id="nbox" >           
+        <p>  *   @row.ntit  &nbsp;&nbsp<a href="News?sid=@row.newid" >Read</a></p>
+         </div>
+         
+        }
+
+    <div style="border:2px solid lime;color:lime;text-align:center">
+        <h3 style="color:lime">Cricket Team Ranking </h3>
+          <table>
+            <tr>
+                <th colspan="8">Team </th><th colspan="2">Winnings</th>
+            </tr>
+        @foreach (var row in db.Query("select * from ranki where type='Cricket' order by rank desc "))
+        {
+      
+           
+                
+            <tr>
+                <td>
+                    @row.tmname
+                </td>
+                <td></td>
+                <td></td>
+                 <td>&nbsp</td>
+                 <td>&nbsp</td>
+                <td>&nbsp</td>
+                 <td>&nbsp</td>
+                 <td>&nbsp</td>
+                <td></td>
+                <td>
+                    @row.rank
+                </td>
+
+            </tr>
+           
+      
+        }
+
+  </table>
+        <br />
+    </div>
+      <div style="border:2px solid lime;color:lime;text-align:center;margin-top:5px;">
+        <h3 style="color:lime">FootballTeam Ranking </h3>
+          <table>
+            <tr>
+                <th colspan="8">Team </th><th colspan="2">Winnings</th>
+            </tr>
+        @foreach (var row in db.Query("select * from ranki where type='Football' order by rank desc "))
+        {
+      
+           
+                
+            <tr>
+                <td>
+                    @row.tmname
+                </td>
+                <td></td>
+                <td></td>
+                 <td>&nbsp</td>
+                 <td>&nbsp</td>
+                <td>&nbsp</td>
+                 <td>&nbsp</td>
+                 <td>&nbsp</td>
+                <td></td>
+                <td>
+                    @row.rank
+                </td>
+
+            </tr>
+           
+      
+        }
+
+  </table>
+    </div>
+</div>
+
+
+</div>
+
+</form>
+
+       </body>
+</html>
